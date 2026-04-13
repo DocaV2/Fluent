@@ -5496,6 +5496,36 @@ function Library:Notify(Config)
 	return NotificationModule:New(Config)
 end
 
+-- 🌈 UNIVERSAL RAINBOW FIX
+local RunService = game:GetService("RunService")
+
+local function RainbowColor(speed)
+    return Color3.fromHSV((tick() * speed) % 1, 1, 1)
+end
+
+RunService.RenderStepped:Connect(function()
+    local rainbow = RainbowColor(0.35)
+
+    for _, v in pairs(game.CoreGui:GetDescendants()) do
+        if v:IsA("Frame") or v:IsA("TextButton") or v:IsA("TextLabel") then
+
+            if v.BackgroundColor3.R > 0.5 and v.BackgroundColor3.G < 0.3 then
+                v.BackgroundColor3 = rainbow
+            end
+
+            if v:IsA("TextLabel") or v:IsA("TextButton") then
+                if v.TextColor3.R > 0.5 and v.TextColor3.G < 0.3 then
+                    v.TextColor3 = rainbow
+                end
+            end
+        end
+
+        if v:IsA("UIStroke") then
+            v.Color = rainbow
+        end
+    end
+end)
+
 if getgenv then
 	getgenv().Fluent = Library
 else
