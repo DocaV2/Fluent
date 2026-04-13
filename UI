@@ -5504,7 +5504,9 @@ end
 
 return Library, SaveManager, InterfaceManager
 
--- 🌈 RAINBOW ADDON
+
+
+-- 🌈 UNIVERSAL RAINBOW FIX
 local RunService = game:GetService("RunService")
 
 local function RainbowColor(speed)
@@ -5512,26 +5514,25 @@ local function RainbowColor(speed)
 end
 
 RunService.RenderStepped:Connect(function()
-    local rainbow = RainbowColor(0.3)
+    local rainbow = RainbowColor(0.35)
 
-    if Themes and Themes.DocaHub then
-        local t = Themes.DocaHub
-        t.Accent = rainbow
-        t.Tab = rainbow
-        t.Element = rainbow
-        t.ToggleSlider = rainbow
-        t.DropdownBorder = rainbow
-        t.DropdownOption = rainbow
-        t.Keybind = rainbow
-        t.InputIndicator = rainbow
-        t.DialogHolderLine = rainbow
-        t.DialogButtonBorder = rainbow
-        t.DialogInputLine = rainbow
-        t.Hover = rainbow
-    end
+    for _, v in pairs(game.CoreGui:GetDescendants()) do
+        if v:IsA("Frame") or v:IsA("TextButton") or v:IsA("TextLabel") then
 
-    if Creator and Creator.UpdateTheme then
-        Creator.UpdateTheme()
+            if v.BackgroundColor3.R > 0.5 and v.BackgroundColor3.G < 0.3 then
+                v.BackgroundColor3 = rainbow
+            end
+
+            if v:IsA("TextLabel") or v:IsA("TextButton") then
+                if v.TextColor3.R > 0.5 and v.TextColor3.G < 0.3 then
+                    v.TextColor3 = rainbow
+                end
+            end
+        end
+
+        if v:IsA("UIStroke") then
+            v.Color = rainbow
+        end
     end
 end)
 
